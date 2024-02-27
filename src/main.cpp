@@ -32,5 +32,12 @@ void canSniff(const CAN_message_t &msg) {
   Serial.println(msg.id, HEX);
 
   switch(msg.id) {
+    case 0x36: // TODO update id
+    rawAmplifierOutput = (msg.buf[0] << 8) | msg.buf[1];
+    break;
+    case 0x34:
+    default:
   }
+
+  // TODO print output
 }
