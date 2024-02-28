@@ -30,20 +30,18 @@ void canSniff(const CAN_message_t &msg) {
   int rawAmplifierOutput = 0;
   int ambientTemp = 0;
   Serial.print("id: ");
-  Serial.println(msg.id, HEX);
+  Serial.print(msg.id, HEX);
 
   switch(msg.id) {
-    case 0x36: // TODO update ids
+    case 0x4E2: // TODO update ids
       rawAmplifierOutput = (msg.buf[0] << 8) | msg.buf[1];
-      break;
-    case 0x34:
-      ambientTemp = (msg.buf[7] << 8) | msg.buf[8]; // attempting to read ambient temp
+      ambientTemp = (msg.buf[4] << 8) | msg.buf[5]; // attempting to read ambient temp
       break;
     default:
     break;
   }
 
 Serial.print("  ");
-Serial.print(rawAmplifierOutput);
+Serial.println(rawAmplifierOutput);
   // semi-updated print 
 }
