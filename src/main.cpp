@@ -1,8 +1,9 @@
 #include <Arduino.h>
 #include <FlexCAN_T4.h>
+#include "Logger.h"
 
 FlexCAN_T4<CAN1, RX_SIZE_256, TX_SIZE_16> Can0;
-
+Logger logger;
 void canSniff(const CAN_message_t &msg);
 
 int counter;
@@ -19,6 +20,14 @@ void setup() {
   Can0.enableFIFOInterrupt();
   Can0.onReceive(canSniff);
   Can0.mailboxStatus();
+
+  logger.setup();
+  logger.initializeFile(
+    "sgamplifier",
+    {
+      "amplifier output"
+    }
+  );
 
   Serial.begin(115200);
 
@@ -58,6 +67,6 @@ void canSniff(const CAN_message_t &msg) {
     break;
   }
 
-
+  logger.writeRow("sgamplifier");
   // semi-updated print 
 }
